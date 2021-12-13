@@ -1,11 +1,12 @@
-const count = 16;
-const size = 16;
-const spacing = 1;
+const count = 20;
+const size = 10;
+const spacing = 10;
 const width = count * (size + spacing) - spacing;
 
 import examples from './examples.json';
 
 const input = document.getElementById('input');
+const saradebug = document.getElementById('saradebug');
 const editor = document.getElementById('editor');
 const comment = document.getElementById('comment');
 const output = document.getElementById('output');
@@ -75,11 +76,16 @@ input.addEventListener('blur', function () {
   editor.classList.remove('focus');
 });
 
-editor.addEventListener('submit', (event) => {
+editor.addEventListener('submit', function (event) {
+  console.log(event)
   event.preventDefault();
   const url = new URL(document.location);
   url.searchParams.set('code', code);
   history.replaceState(null, code, url);
+});
+
+input.addEventListener('copy', function () {
+  ol("got coppied!");
 });
 
 function render() {
@@ -103,12 +109,14 @@ function render() {
     for (let x = 0; x < count; x++) {
       const value = Number(callback(time, index, x, y));
       const offset = size / 2;
-      let color = '#FFF';
+      let color = '#B31dc7';
       let radius = (value * size) / 2;
+
+      ol("radius is:" + radius + " size: " + size + " value: " + value);
 
       if (radius < 0) {
         radius = -radius;
-        color = '#F24';
+        color = '#1dc7a0';
       }
 
       if (radius > size / 2) {
@@ -150,8 +158,12 @@ function updateCommentsForCode() {
   const code = input.value;
 
   const snippets = Object.values(examples);
+  console.log(snippets)
   const comments = Object.keys(examples);
+  console.log(code)
   const index = snippets.indexOf(code);
+  console.log(index)
+
   const newComment = comments[index];
 
   if (!newComment) {
@@ -185,6 +197,11 @@ function nextExample() {
   // }, code, `?code=${encodeURIComponent(newCode)}`);
 
   updateCallback();
+}
+
+function ol(input) {
+  saradebug.innerText = input;
+  console.log(saradebug);
 }
 
 output.addEventListener('click', nextExample);

@@ -1,6 +1,6 @@
 # (t,i,x,y) => 'creative code golfing
 
-https://tixy.land
+[salaam](https://tixy.land)
 
 ## development
 
